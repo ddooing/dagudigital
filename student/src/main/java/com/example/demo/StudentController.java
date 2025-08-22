@@ -39,12 +39,24 @@ public class StudentController {
 
     }
     
-    @GetMapping("/students/delete")
-    public String deleteStudent(@RequestParam("id") Integer id) {
-
-    	studentService.deleteById(id);
-
-        return "redirect:/";              
-
+    
+//    // delete 인데 get 방식 -> restful 위배  
+//    @GetMapping("/students/delete")
+//    public String deleteStudent(@RequestParam("id") Integer id) {
+//
+//    	studentService.deleteById(id);
+//
+//        return "redirect:/";              
+//
+//    }
+    
+    //가장 큰 차이 @GetMapping으로 전혀 문제없이 동작하지만 REST ful 에 위배된다.
+    @DeleteMapping("/students/{id}")
+    public String deleteStudent(@PathVariable Integer id) {
+        studentService.deleteById(id);
+        return "redirect:/";
     }
+
+    
+    
 }

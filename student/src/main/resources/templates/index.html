@@ -195,12 +195,11 @@
           </div>
 
           <div class="right">
-            <a class="delete" th:href="@{/students/delete(id=${s.id})}">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-              삭제
-            </a>
+             <form th:action="@{/students/{id}(id=${s.id})}" method="post" style="display:inline">
+  <input type="hidden" name="_method" value="delete" />
+  <button type="submit">삭제</button>
+</form>
+
           </div>
         </li>
       </ul>
