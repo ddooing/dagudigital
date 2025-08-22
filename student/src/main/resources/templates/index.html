@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg: #f7f8fa;           /* 토스 느낌의 아주 밝은 배경 */
+      --card: #ffffff;         /* 카드/표면 */
+      --text: #111827;         /* 본문 텍스트 */
+      --sub: #6b7280;          /* 보조 텍스트 */
+      --line: #eef1f4;         /* 구분선 */
+      --accent: #2f6df6;       /* 파랑 포인트 */
+      --accent-soft: #e7efff;  /* 연한 포인트 배경 */
+      --danger: #ff4d4f;       /* 삭제 */
+      --radius: 16px;
+      --shadow: 0 6px 24px rgba(17, 24, 39, .06);
+    }
+    *{ box-sizing: border-box; }
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: .1px;
+    }
+
+    .wrap{ max-width: 720px; margin: 36px auto 64px; padding: 0 18px; }
+
+    .page-head{
+      margin-bottom: 18px;
+    }
+    .title{
+      margin: 0;
+      font-size: clamp(22px, 3.4vw, 28px);
+      font-weight: 800;
+      letter-spacing: -.2px;
+    }
+    .subtitle{
+      margin: 6px 0 0;
+      color: var(--sub);
+      font-size: 13px;
+    }
+
+    .panel{
+      background: var(--card);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: clip;
+      border: 1px solid #f0f2f5;
+    }
+
+    /* --- Form (토스 입력창 스타일) --- */
+    form{
+      padding: 18px 18px 8px;
+      border-bottom: 1px solid var(--line);
+    }
+    .input-row{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .field{ display:flex; flex-direction:column; gap:8px; }
+    .label{ font-size: 13px; color: var(--sub); }
+
+    input[type="text"]{
+      appearance: none;
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border: 1px solid #e7e9ee;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: box-shadow .18s ease, border-color .18s ease, background .18s ease;
+    }
+    input[type="text"]::placeholder{ color:#bbc3cf; }
+    input[type="text"]:focus{
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(47,109,246,.15);
+      background: #fff;
+    }
+
+    .actions{
+      display:flex; justify-content:flex-end; gap:8px; padding: 4px 0 10px;
+    }
+    .btn{
+      height: 44px; padding: 0 18px;
+      border-radius: 12px; border: 1px solid transparent;
+      font-weight: 700; cursor: pointer; transition: transform .06s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn-primary{
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(47,109,246,.25);
+    }
+    .btn-primary:hover{ filter: brightness(1.03); }
+    .btn-ghost{
+      background: #fff; border-color:#e7e9ee; color: var(--text);
+    }
+    .btn-ghost:hover{ background:#f7f8fb; }
+
+    /* --- List (토스 목록 스타일) --- */
+    .list{
+      list-style:none; margin:0; padding:0;
+    }
+    .item{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+    }
+    .item:first-child{ border-top: none; }
+
+    .meta{
+      display:flex; align-items:center; gap:12px; min-width:0;
+    }
+    .avatar{
+      width:40px; height:40px; border-radius:12px; flex:none;
+      background: var(--accent-soft);
+      color: var(--accent); display:flex; align-items:center; justify-content:center;
+      font-weight: 800;
+    }
+    .text{ min-width:0; }
+    .name{
+      font-weight: 700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .number{
+      margin-top: 2px; color: var(--sub); font-size: 12px;
+    }
+
+    .right{
+      display:flex; align-items:center; gap:10px; flex:none;
+    }
+    .delete{
+      text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+      padding: 8px 10px; border-radius: 10px;
+      background: #fff; border: 1px solid #ffd7d7; color: var(--danger); font-weight:700;
+      transition: background .15s, border-color .15s, transform .06s ease;
+    }
+    .delete:hover{ background:#fff3f3; border-color:#ffbcbc; }
+    .delete:active{ transform: translateY(1px); }
+
+    .empty{
+      padding: 28px 18px; text-align:center; color: var(--sub);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 680px){
+      .input-row{ grid-template-columns: 1fr; }
+      .actions{ justify-content:stretch; }
+      .btn-primary{ width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="page-head">
+      <h1 class="title">학생 등록</h1>
+      <p class="subtitle">간단히 정보를 입력해서 학생을 추가해 보세요.</p>
+    </header>
+
+    <section class="panel">
+      <!-- 입력 영역: name/number 그대로 유지 -->
+      <form method="post" action="/students">
+        <div class="input-row">
+          <div class="field">
+            <span class="label">이름</span>
+            <input id="name" type="text" name="name" placeholder="김땡땡" />
+          </div>
+          <div class="field">
+            <span class="label">학번</span>
+            <input id="number" type="text" name="number" placeholder="20250001" />
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">등록</button>
+        </div>
+      </form>
+
+      <!-- 목록 -->
+      <ul class="list" th:if="${students != null and #lists.size(students) > 0}">
+        <li class="item" th:each="s : ${students}">
+          <div class="meta">
+            <div class="avatar" th:text="${#strings.substring((s.name != null ? s.name : '학'),0,1)}">학</div>
+            <div class="text">
+              <div class="name" th:text="${s.name}">이름</div>
+              <div class="number" th:text="${'학번 ' + s.number}">학번 20250001</div>
+            </div>
+          </div>
+
+          <div class="right">
+            <a class="delete" th:href="@{/students/delete(id=${s.id})}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              삭제
+            </a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="empty" th:if="${students == null or #lists.isEmpty(students)}">
+        아직 등록된 학생이 없습니다.
+      </div>
+    </section>
+  </div>
+</body>
+</html>
